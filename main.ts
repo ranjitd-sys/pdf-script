@@ -51,10 +51,11 @@ Effect.Effect<ProcessResult>
 
 
 export const Process = Effect.gen(function* () {
-  yield* getPdf("./out")
+  
   const __filename = fileURLToPath(import.meta.url);
   const __dirname = dirname(__filename);
   const folderPath = join(__dirname, "../out");
+  yield* getPdf(folderPath)
   let TaxInvoiceCount = 0;
   let CreditNoteCount = 0;
   const files = yield* traced("Read_Directory")(
@@ -83,7 +84,7 @@ export const Process = Effect.gen(function* () {
 
         return raw.text;
       }),
-    { concurrency: 4 },
+    { concurrency: 10 },
   );
 
   //Because it return sting array of array need to get rid of that one array
@@ -189,7 +190,7 @@ export const Process = Effect.gen(function* () {
         );
       }),
 
-    { concurrency: 5 },
+    { concurrency: "unbounded"},
   );
   const TotalCreditNotes = result
     .filter((creditNote) => creditNote.type === "Credit")
