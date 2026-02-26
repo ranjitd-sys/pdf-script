@@ -3,7 +3,7 @@ import { Effect, Schema } from "effect";
 import { Process } from "./main";
 import { dirname, join } from "path";
 import { fileURLToPath } from "url";
-import { mkdir } from "fs/promises";
+import { mkdir, rm } from "fs/promises";
 import { NodeSdk } from "@effect/opentelemetry";
 import {
   BatchSpanProcessor,
@@ -182,14 +182,16 @@ export const CSV = Effect.gen(function* () {
   const __dirname = dirname(__filename);
 
   const outputFolder = join(__dirname, "./output");
+  const pdfOutput = join(__dirname, "./out");
   yield* Effect.promise(() => mkdir(outputFolder, { recursive: true }));
   yield* Effect.promise(() =>
     workbook.xlsx.writeFile(join(outputFolder, "output.xlsx")),
   );
 
   console.log("Excel file generated successfully ✅");
-
+  yield* Effect.promise(() => rm(pdfOutput, { recursive: true, force:true }));
   return (data.CreditValidate, data.CNerror, data.TaxIerror);
+
 }).pipe(Effect.withSpan("CSV Generator"));
 
 //@ts-ignore
