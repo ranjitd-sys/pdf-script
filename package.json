@@ -1,0 +1,17 @@
+{
+  "name": "script",
+  "private": true,
+  "devDependencies": {
+    "@types/bun": "latest"
+  },
+  "peerDependencies": {
+    "typescript": "^5"
+  },
+  "dependencies": {
+    "@effect/opentelemetry": "^0.61.0",
+    "@opentelemetry/exporter-trace-otlp-http": "^0.212.0",
+    "effect": "^3.19.19",
+    "exceljs": "^4.4.0",
+    "unpdf": "^1.4.0"
+  }
+}
