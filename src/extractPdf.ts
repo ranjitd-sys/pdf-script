@@ -2,7 +2,7 @@ import { Effect } from "effect";
 import os from 'os';
 import { readdir } from "fs/promises";
 import { join } from "path";
-const folderPath  = `${os.homedir}/Documents/Global-Store`
+const folderPath  = `../Global-Store`
 const findZip =() =>  Effect.promise(async () => {
   const files  = await readdir(folderPath);
  
