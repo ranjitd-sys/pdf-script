@@ -183,6 +183,10 @@ export const CSV = Effect.gen(function* () {
 
   const outputFolder = join(__dirname, "./output");
   const pdfOutput = join(__dirname, "./out");
+
+
+
+
   yield* Effect.promise(() => mkdir(outputFolder, { recursive: true }));
   yield* Effect.promise(() =>
     workbook.xlsx.writeFile(join(outputFolder, "output.xlsx")),

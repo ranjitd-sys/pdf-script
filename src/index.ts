@@ -1,6 +1,6 @@
 import ExcelJS from "exceljs";
 import { Effect, Schema } from "effect";
-import { Process } from "./src/main";
+import { Process } from "./main";
 import { dirname, join } from "path";
 import { fileURLToPath } from "url";
 import { mkdir, rm } from "fs/promises";
@@ -181,7 +181,7 @@ export const CSV = Effect.gen(function* () {
   const __filename = fileURLToPath(import.meta.url);
   const __dirname = dirname(__filename);
 
-  const outputFolder = join(__dirname, "./output");
+  const outputFolder = join(__dirname, "../output");
   const pdfOutput = join(__dirname, "./out");
   yield* Effect.promise(() => mkdir(outputFolder, { recursive: true }));
   yield* Effect.promise(() =>

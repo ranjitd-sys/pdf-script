@@ -54,7 +54,7 @@ export const Process = Effect.gen(function* () {
   
   const __filename = fileURLToPath(import.meta.url);
   const __dirname = dirname(__filename);
-  const folderPath = join(__dirname, "../out");
+  const folderPath = join(__dirname, "./out");
   yield* getPdf(folderPath)
   let TaxInvoiceCount = 0;
   let CreditNoteCount = 0;
