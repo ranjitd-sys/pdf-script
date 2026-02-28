@@ -7,6 +7,12 @@
 The tool is designed to eliminate manual document processing by enabling bulk extraction, parsing, and transformation of PDF data into Excel format.
 
 ---
+## 🧠 About the Program
+
+Currently, the tool expects ZIP archives to be placed manually inside the `src/GlobalStore` directory for processing.
+
+The system extracts all PDF files from the ZIP archive and converts them into Excel format based on predefined parameters.
+
 
 ## ✨ Features
 
@@ -84,12 +90,6 @@ or
 bun run start
 ```
 
-### Example Command
-
-```bash
-node index.js --zip ./input/files.zip --output ./output
-```
-
 
 ## 📁 Project Structure
 
@@ -153,6 +153,15 @@ Contributions are welcome!
 3. Submit a pull request
 
 ---
+
+### 🔄 Upcoming Improvements
+
+* ☁️ Cloud-based ZIP retrieval (automatic pulling from remote storage)
+* 📦 Support for cloud providers (AWS S3 / GCS / Remote Storage)
+* 🤖 Fully automated document ingestion pipeline
+* ⚡ Removal of manual file placement requirement
+
+The long-term goal is to evolve this tool into a **cloud-native document processing system** capable of handling large-scale automated workflows.
 
 
 
