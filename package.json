@@ -1,15 +1,17 @@
 {
   "name": "script",
   "private": true,
-  
   "devDependencies": {
-    "@types/bun": "latest"
+    "@effect/vitest": "^0.27.0",
+    "@types/bun": "latest",
+    "vitest": "^4.0.18"
   },
   "peerDependencies": {
     "typescript": "^5"
   },
   "scripts": {
-     "build": "bunx tsc"
+    "build": "bunx tsc",
+    "test": "vitest run "
   },
   "dependencies": {
     "@effect/opentelemetry": "^0.61.0",

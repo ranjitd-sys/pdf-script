@@ -1,11 +1,11 @@
-import { Effect, Schema,Context , Layer} from "effect";
+import { Effect, Schema, Context, Layer } from "effect";
 import { readdir } from "fs/promises";
-import { join } from "path";
+
 import { extractText } from "unpdf";
 import { NoPdfError } from "./BrandedTypes";
-import { dirname } from "path";
+import { dirname, join } from "path";
 import { fileURLToPath } from "url";
-import os from "os"
+import os from "os";
 const traced =
   (name: string, attributes?: Record<string, unknown>) =>
   <A, E, R>(effect: Effect.Effect<A, E, R>) =>
@@ -36,26 +36,24 @@ import type { StringMatchingConstraints } from "effect/FastCheck";
 import { getPdf } from "./extractPdf";
 
 export interface ProcessResult {
-  TaxIerror: unknown
-  CNerror: unknown
-  CreditNoteCount: number
-  TaxInvoiceCount: number
-  CreditValidate: unknown
-  TaxInvoiceValidate: unknown
+  TaxIerror: unknown;
+  CNerror: unknown;
+  CreditNoteCount: number;
+  TaxInvoiceCount: number;
+  CreditValidate: unknown;
+  TaxInvoiceValidate: unknown;
 }
 
 export class ProcessType extends Context.Tag("Process")<
-ProcessType,
-Effect.Effect<ProcessResult>
->() {};
-
+  ProcessType,
+  Effect.Effect<ProcessResult>
+>() {}
 
 export const Process = Effect.gen(function* () {
-  
   const __filename = fileURLToPath(import.meta.url);
   const __dirname = dirname(__filename);
   const folderPath = join(__dirname, "./out");
-  yield* getPdf(folderPath)
+  yield* getPdf(folderPath);
   let TaxInvoiceCount = 0;
   let CreditNoteCount = 0;
   const files = yield* traced("Read_Directory")(
@@ -190,7 +188,7 @@ export const Process = Effect.gen(function* () {
         );
       }),
 
-    { concurrency: "unbounded"},
+    { concurrency: "unbounded" },
   );
   const TotalCreditNotes = result
     .filter((creditNote) => creditNote.type === "Credit")
@@ -211,19 +209,19 @@ export const Process = Effect.gen(function* () {
     "tax_invoice.count": TaxInvoiceCount,
   });
 
-const [CNerror, CreditValidate] = yield* Effect.partition(
-  TotalCreditNotes,
-  (creditNote) =>
-    Schema.decodeUnknown(CreditNotesArraySchema)(TotalCreditNotes).pipe(
-      //@ts-ignore
-      Effect.map((valid) => valid),
-      Effect.mapError((error) => ({
-        message: "Invalid Credit Note",
-        creditNoteNumber: creditNote.order_number,
-        error
-      }))
-    )
-);
+  const [CNerror, CreditValidate] = yield* Effect.partition(
+    TotalCreditNotes,
+    (creditNote) =>
+      Schema.decodeUnknown(CreditNotesArraySchema)(TotalCreditNotes).pipe(
+        //@ts-ignore
+        Effect.map((valid) => valid),
+        Effect.mapError((error) => ({
+          message: "Invalid Credit Note",
+          creditNoteNumber: creditNote.order_number,
+          error,
+        })),
+      ),
+  );
 
   const [TaxIerror, TaxInvoiceValidate] = yield* Effect.partition(
     ToalTaxInvoice,
@@ -231,7 +229,7 @@ const [CNerror, CreditValidate] = yield* Effect.partition(
       Schema.decodeUnknown(InvoiceArraySchema)(ToalTaxInvoice).pipe(
         //@ts-ignore
         Effect.map((validData) => ({
-          validData,  
+          validData,
         })),
         Effect.mapError((error) => ({
           message: "Invalid Tax Invoice",
