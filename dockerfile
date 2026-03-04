@@ -24,7 +24,7 @@ WORKDIR /app
 RUN apt-get update && apt-get install -y unzip \
     && rm -rf /var/lib/apt/lists/*
     
-COPY --from=builder /app/Global-Store ./Global-Store
+COPY --from=builder /app/src/Global-Store ./Global-Store
 COPY --from=builder /app/dist ./dist
 COPY --from=builder /app/package.json .
 

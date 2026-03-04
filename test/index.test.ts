@@ -10,8 +10,6 @@
 // test cases to write
 import { describe, it, expect } from "@effect/vitest";
 import { Effect, Layer } from "effect";
-import { getPdf } from "../src/extractPdf";
-import { dirname, join } from "path";
 import { separateCreditNote } from "../src/shaprator";
 
 // test for extrac pdf
